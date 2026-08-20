@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muhamad Ezhar Azuwan Mizam — Portofolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0b0e14;
+    --panel: #11151d;
+    --panel-2: #161b25;
+    --line: #232a38;
+    --text: #e4e7ed;
+    --muted: #7c8598;
+    --accent: #5eead4;
+    --accent-2: #f0b429;
+    --accent-3: #f97583;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  code, .mono{font-family:'JetBrains Mono',monospace;}
+  ::selection{background:var(--accent);color:#0b0e14;}
+
+  /* ---------- topbar / window chrome ---------- */
+  .titlebar{
+    position:sticky;top:0;z-index:100;
+    background:rgba(11,14,20,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    display:flex;align-items:center;
+    padding:12px 20px;
+    gap:16px;
+  }
+  .dots{display:flex;gap:7px;flex-shrink:0;}
+  .dots span{width:11px;height:11px;border-radius:50%;display:block;}
+  .dots span:nth-child(1){background:#f97583;}
+  .dots span:nth-child(2){background:#f0b429;}
+  .dots span:nth-child(3){background:#5eead4;}
+  .titlebar .path{color:var(--muted);font-size:13px;}
+  .titlebar nav{margin-left:auto;display:flex;gap:22px;}
+  .titlebar nav a{
+    color:var(--muted);text-decoration:none;font-size:13px;
+    font-family:'JetBrains Mono',monospace;
+    transition:color .2s;
+    white-space:nowrap;
+  }
+  .titlebar nav a:hover, .titlebar nav a:focus-visible{color:var(--accent);}
+  .titlebar nav a:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:2px;}
+  @media(max-width:640px){
+    .titlebar .path{display:none;}
+    .titlebar nav{gap:14px;}
+    .titlebar nav a{font-size:11.5px;}
+  }
+
+  /* ---------- layout shell ---------- */
+  .shell{
+    display:grid;
+    grid-template-columns:220px 1fr;
+    min-height:calc(100vh - 49px);
+  }
+  @media(max-width:900px){
+    .shell{grid-template-columns:1fr;}
+    .sidebar{display:none;}
+  }
+  .sidebar{
+    border-right:1px solid var(--line);
+    padding:28px 0;
+    position:sticky;top:49px;
+    height:calc(100vh - 49px);
+    background:var(--panel);
+  }
+  .sidebar .label{
+    font-size:11px;color:var(--muted);letter-spacing:.08em;
+    text-transform:uppercase;padding:0 20px 10px;
+  }
+  .filetree a{
+    display:flex;align-items:center;gap:9px;
+    padding:9px 20px;color:var(--text);text-decoration:none;
+    font-size:13.5px;font-family:'JetBrains Mono',monospace;
+    border-left:2px solid transparent;
+    transition:background .15s,border-color .15s;
+  }
+  .filetree a:hover, .filetree a:focus-visible{
+    background:var(--panel-2);border-left-color:var(--accent);outline:none;
+  }
+  .filetree .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+
+  main{padding:0;}
+  section{padding:70px 32px;max-width:900px;margin:0 auto;}
+  @media(max-width:640px){section{padding:52px 20px;}}
+
+  /* ---------- hero / terminal ---------- */
+  .hero{max-width:900px;margin:0 auto;padding:64px 32px 40px;}
+  @media(max-width:640px){.hero{padding:44px 20px 28px;}}
+  .term{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 30px 60px -30px rgba(0,0,0,0.6);
+  }
+  .term-head{
+    display:flex;align-items:center;gap:8px;
+    padding:10px 14px;border-bottom:1px solid var(--line);
+    background:var(--panel-2);
+  }
+  .term-head span.f{font-size:12px;color:var(--muted);margin-left:6px;font-family:'JetBrains Mono',monospace;}
+  .term-body{padding:26px 24px 30px;font-family:'JetBrains Mono',monospace;font-size:14.5px;}
+  .term-line{color:var(--muted);margin-bottom:6px;}
+  .term-line .prompt{color:var(--accent);}
+  .term-out{margin:14px 0 4px;}
+  .hero h1{
+    font-size:clamp(28px,5vw,44px);
+    font-weight:700;color:var(--text);
+    line-height:1.15;
+  }
+  .hero h1 .cursor{
+    display:inline-block;width:9px;height:0.9em;background:var(--accent);
+    margin-left:4px;vertical-align:-2px;
+    animation:blink 1s step-end infinite;
+  }
+  @media (prefers-reduced-motion:reduce){ .hero h1 .cursor{animation:none;} }
+  @keyframes blink{50%{opacity:0;}}
+  .hero .role{
+    color:var(--accent-2);font-family:'JetBrains Mono',monospace;
+    font-size:15px;margin-top:10px;
+  }
+  .hero .desc{color:var(--muted);margin-top:16px;font-size:15.5px;max-width:56ch;}
+  .hero .ctas{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;}
+  .btn{
+    font-family:'JetBrains Mono',monospace;font-size:13.5px;
+    padding:11px 18px;border-radius:6px;text-decoration:none;
+    display:inline-flex;align-items:center;gap:8px;
+    transition:transform .15s,background .15s,border-color .15s;
+  }
+  .btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+  .btn-primary{background:var(--accent);color:#0b0e14;font-weight:700;}
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-ghost{border:1px solid var(--line);color:var(--text);}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);}
+
+  /* ---------- section headers ---------- */
+  .sec-head{margin-bottom:34px;}
+  .sec-head .tag{
+    font-family:'JetBrains Mono',monospace;color:var(--accent);
+    font-size:12.5px;letter-spacing:.06em;
+  }
+  .sec-head h2{font-size:clamp(22px,3.5vw,30px);margin-top:8px;font-weight:700;}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}}
+
+  /* ---------- about ---------- */
+  .code-card{
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:26px 26px;font-family:'JetBrains Mono',monospace;font-size:14px;
+    overflow-x:auto;
+  }
+  .code-card .cm{color:var(--muted);}
+  .code-card .kw{color:var(--accent-3);}
+  .code-card .str{color:var(--accent);}
+  .code-card .ln{color:#3a4356;display:inline-block;width:22px;user-select:none;}
+  .code-card div{white-space:pre;line-height:1.9;}
+
+  /* ---------- skills ---------- */
+  .skills-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+    gap:14px;
+  }
+  .skill-card{
+    background:var(--panel);border:1px solid var(--line);border-radius:8px;
+    padding:18px 18px;transition:border-color .2s,transform .2s;
+  }
+  .skill-card:hover{border-color:var(--accent);transform:translateY(-3px);}
+  .skill-card .k{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);}
+  .skill-card .v{font-weight:600;margin-top:6px;font-size:15px;}
+
+  /* ---------- projects ---------- */
+  .proj-list{display:flex;flex-direction:column;gap:16px;}
+  .proj-card{
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:24px 26px;transition:border-color .2s;
+  }
+  .proj-card:hover{border-color:var(--accent);}
+  .proj-top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .proj-top h3{font-size:18px;font-weight:700;}
+  .proj-tag{
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent-2);
+    border:1px solid var(--line);padding:3px 9px;border-radius:999px;white-space:nowrap;
+  }
+  .proj-card p{color:var(--muted);margin-top:10px;font-size:14.5px;}
+  .proj-stack{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}
+  .proj-stack span{
+    font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);
+    background:var(--panel-2);padding:4px 9px;border-radius:5px;
+  }
+  .proj-more{
+    border:1px dashed var(--line);border-radius:10px;padding:22px 26px;
+    color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:13.5px;
+    text-align:center;
+  }
+
+  /* ---------- contact ---------- */
+  .contact-term{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+  .contact-body{padding:26px 24px;font-family:'JetBrains Mono',monospace;font-size:14.5px;}
+  .contact-row{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:13px 0;border-bottom:1px solid var(--line);flex-wrap:wrap;
+  }
+  .contact-row:last-child{border-bottom:none;}
+  .contact-row .k{color:var(--muted);}
+  .contact-row .k .p{color:var(--accent);}
+  .contact-row a, .contact-row .val{color:var(--text);text-decoration:none;font-weight:600;}
+  .contact-row a:hover{color:var(--accent);}
+  .soon{color:var(--muted);font-style:italic;font-weight:400;}
+
+  footer{
+    text-align:center;padding:34px 20px 46px;color:var(--muted);
+    font-family:'JetBrains Mono',monospace;font-size:12.5px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="titlebar">
+    <div class="dots"><span></span><span></span><span></span></div>
+    <span class="path mono">ezhar-portfolio — ~/main</span>
+    <nav>
+      <a href="#about">about.js</a>
+      <a href="#skills">skills.json</a>
+      <a href="#projects">projects/</a>
+      <a href="#contact">contact.sh</a>
+    </nav>
+  </div>
+
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="label">Explorer</div>
+      <div class="filetree">
+        <a href="#about"><span class="dot" style="background:var(--accent-3)"></span>about.js</a>
+        <a href="#skills"><span class="dot" style="background:var(--accent-2)"></span>skills.json</a>
+        <a href="#projects"><span class="dot" style="background:var(--accent)"></span>projects/</a>
+        <a href="#contact"><span class="dot" style="background:var(--accent-3)"></span>contact.sh</a>
+      </div>
+    </aside>
+
+    <main>
+      <section class="hero" aria-label="Perkenalan">
+        <div class="term">
+          <div class="term-head">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <span class="f">whoami.sh</span>
+          </div>
+          <div class="term-body">
+            <div class="term-line"><span class="prompt">ezhar@rpl</span>:~$ whoami</div>
+            <div class="term-out">
+              <h1>Muhamad Ezhar Azuwan Mizam<span class="cursor" aria-hidden="true"></span></h1>
+              <div class="role">&gt; siswa SMK — Rekayasa Perangkat Lunak (RPL)</div>
+              <p class="desc">Membangun website, aplikasi, dan sistem data dari sisi kode maupun tampilan. Suka ubek-ubek ide baru dan mengubahnya jadi sesuatu yang bisa dipakai orang.</p>
+              <div class="ctas">
+                <a class="btn btn-primary" href="#projects">Lihat proyek</a>
+                <a class="btn btn-ghost" href="#contact">Hubungi saya</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about">
+        <div class="sec-head reveal">
+          <div class="tag">01 // tentang</div>
+          <h2>about.js</h2>
+        </div>
+        <div class="code-card reveal">
+<div><span class="ln">1</span><span class="kw">const</span> siswa = {</div>
+<div><span class="ln">2</span>  nama: <span class="str">"Muhamad Ezhar Azuwan Mizam"</span>,</div>
+<div><span class="ln">3</span>  jurusan: <span class="str">"Rekayasa Perangkat Lunak"</span>,</div>
+<div><span class="ln">4</span>  jenjang: <span class="str">"SMK"</span>,</div>
+<div><span class="ln">5</span>  <span class="cm">// suka membangun sesuatu dari nol —</span></div>
+<div><span class="ln">6</span>  <span class="cm">// dari rancangan antarmuka sampai baris kode terakhir</span></div>
+<div><span class="ln">7</span>  fokus: [<span class="str">"web development"</span>, <span class="str">"aplikasi desktop"</span>, <span class="str">"UI/UX"</span>, <span class="str">"data"</span>],</div>
+<div><span class="ln">8</span>};</div>
+        </div>
+      </section>
+
+      <section id="skills">
+        <div class="sec-head reveal">
+          <div class="tag">02 // kemampuan</div>
+          <h2>skills.json</h2>
+        </div>
+        <div class="skills-grid reveal">
+          <div class="skill-card"><div class="k">// dev</div><div class="v">Pembuatan Website</div></div>
+          <div class="skill-card"><div class="k">// dev</div><div class="v">Pembuatan Aplikasi</div></div>
+          <div class="skill-card"><div class="k">// design</div><div class="v">Desain Web</div></div>
+          <div class="skill-card"><div class="k">// design</div><div class="v">UI/UX Design</div></div>
+          <div class="skill-card"><div class="k">// data</div><div class="v">Analisa Data</div></div>
+          <div class="skill-card"><div class="k">// data</div><div class="v">Entry Data</div></div>
+          <div class="skill-card"><div class="k">// mindset</div><div class="v">Creative Idea</div></div>
+        </div>
+      </section>
+
+      <section id="projects">
+        <div class="sec-head reveal">
+          <div class="tag">03 // karya</div>
+          <h2>projects/</h2>
+        </div>
+        <div class="proj-list reveal">
+          <div class="proj-card">
+            <div class="proj-top">
+              <h3>Buku Induk Sekolah</h3>
+              <span class="proj-tag">desktop app</span>
+            </div>
+            <p>Aplikasi desktop untuk mengelola data induk siswa sekolah — pencatatan, pencarian, dan pengorganisasian data secara digital menggantikan sistem manual.</p>
+            <div class="proj-stack"><span>Aplikasi Desktop</span><span>Manajemen Data</span></div>
+          </div>
+          <div class="proj-card">
+            <div class="proj-top">
+              <h3>Inventaris Alat</h3>
+              <span class="proj-tag">desktop app</span>
+            </div>
+            <p>Sistem desktop untuk mencatat dan memantau inventaris alat sekolah, mempermudah pelacakan stok dan kondisi barang.</p>
+            <div class="proj-stack"><span>Aplikasi Desktop</span><span>Inventaris</span></div>
+          </div>
+          <div class="proj-more">+ proyek lain menyusul — sedang dikerjakan</div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="sec-head reveal">
+          <div class="tag">04 // kontak</div>
+          <h2>contact.sh</h2>
+        </div>
+        <div class="contact-term reveal">
+          <div class="term-head">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <span class="f">contact.sh</span>
+          </div>
+          <div class="contact-body">
+            <div class="contact-row">
+              <span class="k"><span class="p">$</span> email</span>
+              <a href="mailto:muhamadezhar80@gmail.com">muhamadezhar80@gmail.com</a>
+            </div>
+            <div class="contact-row">
+              <span class="k"><span class="p">$</span> whatsapp</span>
+              <a href="https://wa.me/6283821375006" target="_blank" rel="noopener">083821375006</a>
+            </div>
+            <div class="contact-row">
+              <span class="k"><span class="p">$</span> instagram</span>
+              <span class="val soon">segera hadir</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>© 2026 Muhamad Ezhar Azuwan Mizam — dibangun dengan niat baik dan banyak kopi.</footer>
+    </main>
+  </div>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:0.15});
+  els.forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
